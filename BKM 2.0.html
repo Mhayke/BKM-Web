@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BKM 2.0</title>
+    <link rel="icon" href="../BKM WEB/miraic.ico" type="bkm">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"> 
+    <style>
+        body {
+            background-color: #021b2b;
+            color: white;
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .menu, .main-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            width: 100%;
+        }
+        .menu {
+            flex-direction: row; /* Dispõe os botões horizontalmente */
+        }
+        .menu button {
+            font-size: 24px;
+            padding: 20px 40px;
+            margin: 10px;
+            cursor: pointer;
+            border: none;
+            border-radius: 5px;
+            color: white;
+            transition: background-color 0.3s;
+        }
+        #vpm-btn {
+            background-color: #c5485a; /* Cor para o botão VPM */
+            color: black;
+        }
+        #vpm-btn:hover {
+            background-color: #a53848; /* Cor ao passar o mouse */
+        }
+        #pls-btn {
+            background-color: #63997a; /* Cor para o botão PLS */
+            color: black;
+        }
+        #pls-btn:hover {
+            background-color: #507a61; /* Cor ao passar o mouse */
+        }
+        #resultado {
+            font-size: 80px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+        .input-group {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .button-group {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            margin-right: 9px;
+        }
+        label {
+            font-size: 18px;
+            background-color: #fac055;
+            padding: 10px;
+            margin-right: 10px;
+            border-radius: 5px;
+        }
+        input {
+            font-size: 18px;
+            padding: 10px;
+            width: 150px;
+            margin-right: 10px;
+        }
+        button {
+            font-size: 18px;
+            padding: 15px 30px;
+            margin: 0 10px;
+            cursor: pointer;
+            border: none;
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+        }
+        #calcular-btn {
+            background-color: #59a05b;
+            color: black;
+        }
+        #limpar-btn {
+            background-color: #d6254d;
+            color: black;
+        }
+        #back-to-menu-btn {
+            background-color: #5e81ac; /* Cor para o botão Voltar ao Menu */
+            color: white;
+            margin-top: 10px; /* Espaçamento acima do botão Voltar ao Menu */
+        }
+        #back-to-menu-btn:hover {
+            background-color: #4a6d8c; /* Cor ao passar o mouse */
+        }
+        .button-group i {
+            margin-right: 8px;
+        }
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div> <!-- Imagem de capa-->
+     <img class="capa" src="" alt="">   
+    </div>
+
+    <div class="menu">
+        <button id="vpm-btn">VPM</button>
+        <button id="pls-btn">PLS</button>
+    </div>
+    <div class="main-content hidden">
+        <div id="resultado">0 %</div>
+        <div class="input-group">
+            <label for="entrada1">META:</label>
+            <input type="text" id="entrada1">
+        </div>
+        <div class="input-group">
+            <label for="entrada2">REAL:</label>
+            <input type="text" id="entrada2">
+        </div>
+        <div class="button-group">
+            <button id="calcular-btn"><i class="fas fa-calculator"></i> Calcular</button>
+            <button id="limpar-btn"><i class="fas fa-eraser"></i> Limpar</button>
+        </div>
+        <button id="back-to-menu-btn"><i class="fas fa-arrow-left"></i> Voltar ao Menu</button>
+    </div>
+
+    <script>
+        document.getElementById("vpm-btn").addEventListener("click", function() {
+            document.querySelector(".menu").classList.add("hidden");
+            document.querySelector(".main-content").classList.remove("hidden");
+        });
+
+        document.getElementById("pls-btn").addEventListener("click", function() {
+            // Adicione a funcionalidade desejada para o botão PLS aqui
+            alert("PLS em manutenção!");
+        });
+
+        document.getElementById("calcular-btn").addEventListener("click", function() {
+            const entrada1 = document.getElementById("entrada1").value.replace(',', '.');
+            const entrada2 = document.getElementById("entrada2").value.replace(',', '.');
+
+            try {
+                const valor1 = parseFloat(entrada1);
+                const valor2 = parseFloat(entrada2);
+                if (isNaN(valor1) || isNaN(valor2) || valor1 === 0) {
+                    throw new Error("Valor inválido");
+                }
+
+                const resultado = Math.floor((valor2 / valor1 - 1) * 100);
+                const resultadoLabel = document.getElementById("resultado");
+                resultadoLabel.innerHTML = `${resultado} %`;
+
+                const corTexto = resultado > 0 ? "#bade57" : "#d11e48";
+                resultadoLabel.style.color = corTexto;
+
+            } catch (error) {
+                const resultadoLabel = document.getElementById("resultado");
+                resultadoLabel.innerHTML = "Erro!";
+                resultadoLabel.style.color = "#d11e48";
+            }
+        });
+
+        document.getElementById("limpar-btn").addEventListener("click", function() {
+            document.getElementById("entrada1").value = "";
+            document.getElementById("entrada2").value = "";
+            document.getElementById("resultado").innerHTML = "0 %";
+            document.getElementById("resultado").style.color = "white";
+        });
+
+        document.getElementById("back-to-menu-btn").addEventListener("click", function() {
+            document.querySelector(".main-content").classList.add("hidden");
+            document.querySelector(".menu").classList.remove("hidden");
+        });
+    </script>
+</body>
+</html>
